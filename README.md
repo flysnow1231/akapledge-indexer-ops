@@ -1,22 +1,12 @@
 # AkaPledge 运营扫链工程
 
-这版工程按你的要求改成了**循环任务扫链**，并且：
-
-- 每轮都以 `当前最新区块 - 6` 作为安全区块入库
-- 数据直接落 MySQL
-- 数据结构面向运营使用，重点记录：池子状态、撮合结果、放款/退款、健康检查、清算/结束、出借人仓位、借款人仓位
-- 事件原始流水单独保留，方便运营追溯
-- 断点续扫通过 `sync_task_checkpoint` 实现
-
 ## 关键设计
-
 ### 1. 循环任务
 入口：
 
 ```bash
-go run ./cmd/indexer -config ./configs/config.example.yaml
+go run ./cmd/indexer -config ./configs/config.yaml
 ```
-
 主循环会每隔 `poll_interval_seconds` 执行一轮。
 
 ### 2. 延迟 6 个区块入库
@@ -32,7 +22,6 @@ safeLatest = latestBlock - delayBlocks
 chain:
   delay_blocks: 6
 ```
-
 也就是说，链上最新块如果是 `1000`，本轮最多只会扫到 `994`。
 这样可以降低短暂重组带来的脏数据风险。
 
@@ -68,13 +57,11 @@ chain:
 source ./schema/ddl.sql;
 ```
 
-或者程序启动时自动执行建表。
-
 ## 启动
 
 ```bash
 go mod tidy
-go run ./cmd/indexer -config ./configs/config.example.yaml
+go run ./cmd/indexer -config ./configs/config.yaml
 ```
 
 只跑一轮：

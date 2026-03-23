@@ -36,9 +36,6 @@ func main() {
 	defer st.Close()
 
 	ctx := context.Background()
-	// if err := st.EnsureSchema(ctx); err != nil {
-	// 	logger.Fatal("ensure schema failed", zap.Error(err))
-	// }
 
 	ec, err := eth.Dial(cfg.Chain.RPCURL)
 	if err != nil {
