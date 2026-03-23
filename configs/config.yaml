@@ -1,0 +1,23 @@
+app:
+  name: akapledge-ops-indexer
+  env: dev
+
+chain:
+  rpc_url: https://eth-sepolia.g.alchemy.com/v2/gIhiM5Yf0aws45NtrF6U3
+  chain_id: 11155111
+  contract_address: 0xd1a7cc4b625bfad60bd3ca5e88489d5fafc17468
+  start_block: 10496236
+  delay_blocks: 6
+  batch_size: 10
+  poll_interval_seconds: 15
+
+database:
+  dsn: dev:123456@tcp(127.0.0.1:3306)/aka_pledge?charset=utf8mb4&parseTime=True&loc=Local
+  max_open_conns: 20
+  max_idle_conns: 5
+  conn_max_lifetime_minutes: 30
+
+indexer:
+  task_name: akapledge_ops_indexer
+  reorg_safe_distance: 12
+  enable_receipt_status_check: true
